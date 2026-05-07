@@ -1,0 +1,32 @@
+services:
+  product-service:
+    build: ../services/product-service
+    ports:
+      - "3001:3001"
+
+  inventory-service:
+    build: ../services/inventory-service
+    ports:
+      - "3002:3002"
+
+  order-service:
+    build: ../services/order-service
+    ports:
+      - "3003:3003"
+    environment:
+      PRODUCT_SERVICE_URL: http://product-service:3001
+      INVENTORY_SERVICE_URL: http://inventory-service:3002
+    depends_on:
+      - product-service
+      - inventory-service
+
+  api-gateway:
+    build: ../services/api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      PRODUCT_SERVICE_URL: http://product-service:3001
+      ORDER_SERVICE_URL: http://order-service:3003
+    depends_on:
+      - order-service
+

@@ -1,0 +1,59 @@
+services:
+  product-service:
+    build: ../services/product-service
+    ports:
+      - "3001:3001"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3001/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  inventory-service:
+    build: ../services/inventory-service
+    ports:
+      - "3002:3002"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3002/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  order-service:
+    build: ../services/order-service
+    ports:
+      - "3003:3003"
+    environment:
+      PRODUCT_SERVICE_URL: http://product-service:3001
+      INVENTORY_SERVICE_URL: http://inventory-service:3002
+    depends_on:
+      product-service:
+        condition: service_healthy
+      inventory-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3003/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  api-gateway:
+    build: ../services/api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      PRODUCT_SERVICE_URL: http://product-service:3001
+      ORDER_SERVICE_URL: http://order-service:3003
+    depends_on:
+      order-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+

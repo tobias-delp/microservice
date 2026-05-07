@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+  namespace: mini-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+        - name: order-service
+          image: order-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3003
+          env:
+            - name: PRODUCT_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: service-config
+                  key: PRODUCT_SERVICE_URL
+            - name: INVENTORY_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: service-config
+                  key: INVENTORY_SERVICE_URL
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3003
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3003
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+  namespace: mini-shop
+spec:
+  selector:
+    app: order-service
+  ports:
+    - port: 3003
+      targetPort: 3003
+
