@@ -61,5 +61,5 @@ Thumbs.db
 .codex/
 
 # Others
-slides.md
+slides*.md
 project.md

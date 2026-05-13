@@ -29,5 +29,4 @@ services:
       ORDER_SERVICE_URL: http://order-service:3003
     depends_on:
       - order-service
-      - product-service
 

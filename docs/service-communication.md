@@ -2,6 +2,8 @@
 
 Dieses Schaubild zeigt die HTTP-Kommunikation zwischen den Services.
 
+PNG fuer Praesentationen: `docs/assets/service-communication.png`
+
 ```mermaid
 flowchart LR
     client[Client / Browser / curl]
@@ -53,4 +55,3 @@ PRODUCT_SERVICE_URL=http://product-service:3001
 INVENTORY_SERVICE_URL=http://inventory-service:3002
 ORDER_SERVICE_URL=http://order-service:3003
 ```
-

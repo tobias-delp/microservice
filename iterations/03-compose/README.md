@@ -3,7 +3,7 @@
 Ziel: Alle Services mit einer Compose-Datei starten.
 
 ```bash
-docker compose up -f compose/docker-compose.yml --build
+docker compose -f compose/docker-compose.yml up --build
 ```
 
 Compose stellt automatisch ein Netzwerk bereit. Die Services erreichen sich

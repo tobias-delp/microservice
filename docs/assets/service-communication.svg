@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">Microservice-Kommunikation im Mini-Shop</title>
+  <desc id="desc">Diagramm der HTTP-Kommunikation zwischen Client, api-gateway, product-service, order-service und inventory-service.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 700 36px Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 18px Arial, sans-serif; fill: #475569; }
+      .box { stroke: #334155; stroke-width: 2.5; rx: 14; filter: url(#shadow); }
+      .client { fill: #e0f2fe; }
+      .gateway { fill: #dcfce7; }
+      .service { fill: #fef3c7; }
+      .data { fill: #fae8ff; }
+      .box-title { font: 700 24px Arial, sans-serif; fill: #0f172a; text-anchor: middle; }
+      .box-sub { font: 400 17px Arial, sans-serif; fill: #475569; text-anchor: middle; }
+      .arrow { stroke: #334155; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .arrow-soft { stroke: #64748b; stroke-width: 2.5; fill: none; stroke-dasharray: 8 7; marker-end: url(#arrow); }
+      .label-bg { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.5; rx: 8; }
+      .label { font: 600 16px Arial, sans-serif; fill: #1e293b; text-anchor: middle; }
+      .note { font: 400 15px Arial, sans-serif; fill: #64748b; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1400" height="820"/>
+
+  <text class="title" x="700" y="72" text-anchor="middle">Microservice-Kommunikation im Mini-Shop</text>
+  <text class="subtitle" x="700" y="106" text-anchor="middle">Synchrone HTTP-Aufrufe zwischen API-Gateway, Product, Order und Inventory</text>
+
+  <rect class="box client" x="90" y="325" width="210" height="110"/>
+  <text class="box-title" x="195" y="370">Client</text>
+  <text class="box-sub" x="195" y="400">Browser / curl</text>
+
+  <rect class="box gateway" x="430" y="305" width="240" height="150"/>
+  <text class="box-title" x="550" y="358">api-gateway</text>
+  <text class="box-sub" x="550" y="390">Port 3000</text>
+  <text class="box-sub" x="550" y="420">zentraler Einstieg</text>
+
+  <rect class="box service" x="850" y="160" width="260" height="135"/>
+  <text class="box-title" x="980" y="210">product-service</text>
+  <text class="box-sub" x="980" y="242">Port 3001</text>
+  <text class="box-sub" x="980" y="272">Produktdaten</text>
+
+  <rect class="box service" x="850" y="350" width="260" height="135"/>
+  <text class="box-title" x="980" y="400">order-service</text>
+  <text class="box-sub" x="980" y="432">Port 3003</text>
+  <text class="box-sub" x="980" y="462">Bestellungen</text>
+
+  <rect class="box data" x="850" y="545" width="260" height="135"/>
+  <text class="box-title" x="980" y="595">inventory-service</text>
+  <text class="box-sub" x="980" y="627">Port 3002</text>
+  <text class="box-sub" x="980" y="657">Lagerbestand</text>
+
+  <path class="arrow" d="M 300 380 C 345 380, 375 380, 430 380"/>
+  <rect class="label-bg" x="312" y="333" width="108" height="34"/>
+  <text class="label" x="366" y="356">HTTP API</text>
+
+  <path class="arrow" d="M 670 342 C 735 265, 770 228, 850 228"/>
+  <rect class="label-bg" x="670" y="244" width="154" height="34"/>
+  <text class="label" x="747" y="267">GET /products</text>
+
+  <path class="arrow" d="M 670 418 C 725 418, 770 418, 850 418"/>
+  <rect class="label-bg" x="680" y="371" width="140" height="34"/>
+  <text class="label" x="750" y="394">POST /orders</text>
+
+  <path class="arrow" d="M 980 350 C 980 330, 980 318, 980 295"/>
+  <rect class="label-bg" x="1035" y="309" width="174" height="34"/>
+  <text class="label" x="1122" y="332">GET /products/:id</text>
+
+  <path class="arrow" d="M 980 485 C 980 510, 980 523, 980 545"/>
+  <rect class="label-bg" x="1035" y="500" width="218" height="34"/>
+  <text class="label" x="1144" y="523">GET /inventory/:productId</text>
+
+  <path class="arrow-soft" d="M 1110 226 C 1190 226, 1225 190, 1290 160"/>
+  <path class="arrow-soft" d="M 1110 418 C 1200 418, 1225 418, 1290 418"/>
+  <path class="arrow-soft" d="M 1110 612 C 1190 612, 1225 648, 1290 680"/>
+  <text class="note" x="1195" y="136">Healthchecks / Probes:</text>
+  <text class="note" x="1195" y="160">GET /health</text>
+
+  <rect x="105" y="700" width="1190" height="56" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text class="note" x="130" y="735">Service Discovery: lokal ueber localhost-Ports, in Docker Compose und Kubernetes ueber Servicenamen wie product-service, order-service und inventory-service.</text>
+</svg>

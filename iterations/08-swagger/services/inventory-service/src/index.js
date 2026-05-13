@@ -1,4 +1,5 @@
 import express from "express";
+import { inventoryParamsSchema } from "./schemas/inventorySchemas.js";
 
 const app = express();
 const port = process.env.PORT || 3002;
@@ -14,7 +15,19 @@ app.get("/health", (req, res) => {
 });
 
 app.get("/inventory/:productId", (req, res) => {
-  const stock = inventory[req.params.productId];
+  const result = inventoryParamsSchema.safeParse(req.params);
+
+  if (!result.success) {
+    return res.status(400).json({
+      error: "Invalid route parameters",
+      issues: result.error.issues.map((issue) => ({
+        path: issue.path.join("."),
+        message: issue.message
+      }))
+    });
+  }
+
+  const stock = inventory[result.data.productId];
 
   if (!stock) {
     return res.status(404).json({ error: "Inventory item not found" });
@@ -23,11 +36,6 @@ app.get("/inventory/:productId", (req, res) => {
   return res.json(stock);
 });
 
-app.post("/inventory/:productId", (req, res) => {
-  //TODO: remove quantity from inventory when order is accepted
-});
-
 app.listen(port, () => {
   console.log(`inventory-service listening on port ${port}`);
 });
-

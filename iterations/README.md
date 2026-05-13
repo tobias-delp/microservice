@@ -30,3 +30,12 @@ Kubernetes-Manifeste fuehren Namespace, Deployments, Services und Probes ein.
 CI installiert Dependencies, fuehrt Tests aus und baut Docker Images. Ein
 zweiter Workflow kann Images nach GHCR veroeffentlichen.
 
+## 07-zod
+
+Der `order-service` validiert `POST /orders` mit Zod. Ziel ist saubere
+Request-Validation mit nachvollziehbaren `400`-Fehlern.
+
+## 08-swagger
+
+Das `api-gateway` stellt eine OpenAPI-Spezifikation und Swagger UI bereit.
+Ziel ist ein ausprobierbarer API-Vertrag fuer Clients.

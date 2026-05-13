@@ -8,7 +8,7 @@ services:
       interval: 10s
       timeout: 3s
       retries: 3
-      start_period: 5sc
+      start_period: 5s
 
   inventory-service:
     build: ../services/inventory-service
